@@ -9,16 +9,75 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
+
+
+#-----heroku clearDB local yo -----#
+#if not 'default' in DATABASES:
+#    DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.mysql',
+#            'NAME': 'herokulocaldb',
+#            'USER': 'root',
+#            'PASSWORD': '',
+#            'HOST': '',
+#            'PORT': '',
+#        }
+#    }
+
+#-----heroku clearDB start-----#
+import os
+import sys
+import urlparse
+
+# Register database schemes in URLs.
+urlparse.uses_netloc.append('mysql')
+
+try:
+
+    # Check to make sure DATABASES is set in settings.py file.
+    # If not default to {}
+
+    if 'DATABASES' not in locals():
+
+        #-----heroku clearDB local yo -----#
+
+#-----init database comment out-----#
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+                'NAME': 'herokutestdb',                      # Or path to database file if using sqlite3.
+                'USER': 'root',                      # Not used with sqlite3.
+                'PASSWORD': '',                  # Not used with sqlite3.
+                'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+                'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+            }
+        }
+#-----init database comment out-----#
+
+    if 'DATABASE_URL' in os.environ:
+        url = urlparse.urlparse(os.environ['DATABASE_URL'])
+
+        # Ensure default database exists.
+        DATABASES['default'] = DATABASES.get('default', {})
+
+        # Update with environment configuration.
+        DATABASES['default'].update({
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port,
+        })
+
+
+        if url.scheme == 'mysql':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
+except Exception:
+    print 'Unexpected error:', sys.exc_info()
+
+#-----heroku clearDB end-----#
+
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -167,3 +226,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
