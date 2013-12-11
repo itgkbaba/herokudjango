@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
+# from django.contrib import admin
+# admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns('herokutest.views',
     # Examples:
     # url(r'^$', 'mysite2.views.home', name='home'),
     # url(r'^mysite2/', include('mysite2.foo.urls')),
@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^herokutest/', include('herokutest.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'index'),
+    url(r'^(?P<poll_id>\d+)/$', 'detail'),
+    url(r'^(?P<poll_id>\d+)/results/$', 'results'),
+    url(r'^(?P<poll_id>\d+)/vote/$', 'vote'),
 )
