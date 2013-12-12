@@ -1,0 +1,12 @@
+{% extends 'microblog/base.html' %}
+
+{% block content %}
+  <div class="form">
+    <form method="post">
+        <table>
+            {{ form }}
+        </table>
+        <p><input type="submit" value="ログイン" /></p>
+    </form>
+  </div>
+{% endblock content %}

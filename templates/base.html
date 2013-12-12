@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+{% load i18n %}
+<head>
+  <title>manoush</title>
+  <link href="{{ MEDIA_URL }}styles/basic.css" rel="stylesheet" type="text/css" media="screen" />
+  {% block head %}
+  {% endblock head %}
+  <script type="text/javascript">
+  {% block javascript %}
+  {% endblock javascript %}
+  </script>
+</head>
+<body>
+  <div id="wrap">
+    <div id="menu">
+      <h1 class="title"><a href="{% url index %}">manoush</a></h1>
+    </div>
+    <div id="main">
+        <div id="sub_content">
+            {% block sub_content %}
+          <ul>
+            {% if user.is_authenticated %}
+            <li>{{ user.snsuser.nickname }}</li>
+            <li><a href="{% url logout %}">ログアウト</a></li>
+            {% else %}
+            <li><a href="{% url send_activate_key %}">ユーザ登録</a></li>
+            <li><a href="{% url login %}">ログイン</a></li>
+            {% endif %}
+          </ul>
+            {% endblock sub_content %}
+        </div>
+        <div id="content">
+            {% if snsuser_messages %}
+            <div id="system_message">
+                {% for message in snsuser_messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+  </div>
+</body>
+</html>

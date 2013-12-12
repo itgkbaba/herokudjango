@@ -1,0 +1,36 @@
+{% extends 'microblog/note_list' %}
+
+{% block sub_content %}
+<div class="snsuser">
+    <ul>
+        <li><img src="{{ user_profile.snsuser.icon.url }}" /></li>
+        <li>{{ user_profile.snsuser.nickname }}</li>
+        <li>{% if logind %}
+                {% ifequal user_profile.id user.id %}
+                    <form action="{% url upload_icon %}" method="post" enctype="multipart/form-data">
+                        <input type="FILE" name="icon"/><br />
+                        <input type="SUBMIT" value="icon更新" />
+                    </form>
+                {% else %}
+                    {% if catch_uped %}
+                        <form action="{% url remove_friend username=user_profile.username %}" method="post"
+                            <input type="submit" value="購入停止" />
+                        </form>
+                    {% else %}
+                        <form action="{% url add_friend username=user_profile.usename %}" method="post">
+                            <input type="submit" value="購読" />
+                        </form>
+                    {% endif %}
+                {% endifequal %}
+            {% endif %}
+        </li>
+        <li><h3>friend</h3></li>
+        <ul>
+            {% for f in friends %}
+                <li><a href="{% url user_home username=f.username %}">{{ f.nickname }}</a></li>
+            {% endfor %}
+        </ul>
+    </ul>
+</div>
+{{ block.super }}
+{% endblock sub_content %}

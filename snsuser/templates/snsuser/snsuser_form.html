@@ -1,0 +1,15 @@
+{% extends 'snsuser/base.html' %}
+
+{% block content %}
+  <div id="account_form">
+    <form method="post">
+      {{ form.email }}
+      <table>
+        <tr><th>{{ form.username.label_tag }}</th><td>{% if form.username.errors %}{{ form.username.errors }}{% endif %}{{ form.username }}</td><tr>
+        <tr><th>{{ form.password.label_tag }}</th><td>{% if form.password.errors %}{{ form.password.errors }}{% endif %}{{ form.password }}</td><tr>
+        <tr><th>{{ form.nickname.label_tag }}</th><td>{% if form.nickname.errors %}{{ form.nickname.errors }}{% endif %}{{ form.nickname }}</td><tr>
+        <tr><td>&nbsp;</td><td><input type="submit" value="登録" /></td></tr>
+      </table>
+    </form>
+  </div>
+{% endblock content %}

@@ -1,0 +1,2 @@
+
+confirm: {{ domain }}{{ confirm_url }}
